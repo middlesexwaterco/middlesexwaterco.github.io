@@ -1,0 +1,276 @@
+﻿@using NHibernate.SqlCommand
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<title>@(Content.Has.SeoTitle ? Content.Data.SeoTitle : Content.Data.Title)</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	@{
+		Func<string, string> pageByTitle = (title) =>
+		{
+			var page = N2.Content.Search.PublishedPages.Where(p => p.Name.Contains(title)).OrderByDescending(p => p.Published.Value).FirstOrDefault();
+			return page == null ? "#" : page.Url;
+		};
+		var legalNoticeUrl = pageByTitle("Legal Notice");
+		var privacyUrl = pageByTitle("Privacy");
+	}
+	@if (Content.Has.Author && !string.IsNullOrWhiteSpace(Content.Data.Author))
+	{
+		@Content.Register.Meta("Author").Container("Metadata").Display()
+	}
+	else
+	{
+		<meta name="Author" content="Benjamin Herila"/>
+	}
+
+	@if (Content.Has.Keywords && !string.IsNullOrWhiteSpace(Content.Data.Keywords))
+	{
+		@Content.Register.Meta("Keywords").Container("Metadata").Display()
+	}
+	else
+	{
+		<meta name="Keywords" content="Aquifer,Carteret,CJO Water Treatment Plant,Consumer confidence reports,Consumption charge,Contract operations,Delaware & Raritan Canal,East Brunswick,Edison, New Jersey,Environmental,Facilities charge,Groundwater,H20,Highland Park,Hydrant flushing,Investor owned utilities,Iselin,New Jersey,J. Richard Tompkins,Marlboro Township Municipal Utilities Authority,Meter reading,Middlesex County,Middlesex County economic development,Middlesex Water Company,MSEX,Old Bridge Municipal Utilities Authority,Partnerships, Perth Amboy,Pineland Wastewater Company,Pineland Water Company,Privatization, Public Water Supply Company Inc., Public-private partnerships,RENEW, Safe Drinking Water,Sayreville,Sewer,South Amboy,Surface water,Tidewater Utilities Inc., Treatment Plant tours,Utilities,Utility Service Affiliates Inc., Utility Services Affiliates (Perth Amboy) Inc.,Utility Stock,Wastewater systems, Water,Water Utilities,White Marsh Environmental Systems Inc.,Woodbridge"/>
+	}
+
+	@if (Content.Has.Description && !string.IsNullOrWhiteSpace(Content.Data.Description))
+	{
+		@Content.Register.Meta("Keywords").Container("Metadata").Display()
+	}
+	else
+	{
+		<meta name="Description" content="Information on Middlesex Water Company, its water, wastewater services, and service area. Site includes news releases, shareholder information, customer wise water use tips, water quality data as well as general water information."/>
+	}
+
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<link rel="shortcut icon" href="@Url.ThemedContent("~/favicon.ico")"/>
+	<link rel="apple-touch-icon" href="@Url.ThemedContent("~/apple-touch-icon.png")"/>
+	<link rel="canonical" href="@(Content.Data.Url ?? Request.RawUrl)"/>
+
+	<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+		<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<link rel="stylesheet" href="@Url.ThemedContent("~/Content/main.min.css")"/>
+	<script src="@Url.ThemedContent("~/Content/main.min.js")"></script>
+	@{
+		Content.PrependDefinition(re =>
+		{
+			re.Tab("Content", "Content");
+			re.PublishedRange().Container("Metadata");
+		});
+	}
+	@if (IsSectionDefined("head"))
+	{
+		@RenderSection("head")
+	}
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-24372087-1']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+	<link rel="stylesheet" href="@Url.ThemedContent("~/Content/mw2016.css")"/>
+</head>
+<body>
+@{ Html.ControlPanel().Render(); }
+<div class="container-fluid top" style="margin-bottom: 15px;">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9 text-xs-center text-md-left">
+				<nav class="nav nav-inline toplinks">
+					<a class="nav-link" href="">Investors</a>
+					<a class="nav-link" href="@pageByTitle("developers")">Developers &amp; Partners</a>
+					<a class="nav-link" href="">Contact Us</a>
+					<span class="nav-link">
+						<input type="text" name="q" />
+						<button type="submit">Search</button>
+					</span>
+				</nav>
+			</div>
+			<div class="col-md-3 dropdown text-md-right text-xs-center">
+				<button type="button" class="btn btn-info dropdown-toggle contact-top" id="locationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					@if (Session != null && Session["location"] != null)
+					{
+						<span>@Session["location"]</span>
+					}
+					else
+					{
+						<span>Select Company</span>
+					}
+				</button>
+				<div class="dropdown-menu text-md-right" aria-labelledby="locationDropdown">
+					@foreach (Dinamico.Models.ContentPage x in N2.Content.Search.Items.Where(f => f.Title == "Top Nav").First().Children)
+					{
+					<a class="dropdown-item" href="@x.GetDetail("Destination")">@x.Title</a>
+					}
+					@foreach (var x in Content.Traverse.StartPage.GetChild("family").Children.Where(f => f.IsPage))
+					{
+						<li>
+                            <a class="btn font-weight-bold span12" href="@x.Url">@x.Title</a>
+							@if (x.Details["Summary"] != null && !string.IsNullOrWhiteSpace(x.Details["Summary"].StringValue))
+							{ <br /><small>@(x.Details["Summary"].StringValue)</small> }
+						</li>
+					}
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="col-md-3">
+					<a href="~/"><img class="m-y-2" src="@Url.ThemedContent("~/Content/msw-logo-blue-alpha.svg")" /></a>
+				</div>
+				<nav class="text-md-right navbar navbar-light col-md-9">
+					<button class="navbar-toggler hidden-md-up" type="button" data-toggle="collapse" data-target="#collapsingNavbar" aria-controls="exCollapsingNavbar" aria-expanded="false" aria-label="Toggle navigation">
+						&#9776; Main Menu
+					</button>
+					<ul class="nav navbar-nav text-md-center collapse navbar-toggleable-sm" id="collapsingNavbar">
+						<li class="navItem col-md-2 p-y-1">
+							<a class="nav-link" href="~/about-us">
+								<span>About Us</span>
+							</a>
+						</li>
+						<li class="navItem col-md-2 p-y-1">
+							<a class="nav-link" href="@pageByTitle("tips-tools")">
+								<span>Tips &amp Tools</span>
+							</a>
+						</li>
+						<li class="navItem col-md-2 p-y-1">
+							<a class="nav-link" href="@pageByTitle("newsroom")">
+								<span>News Room</span>
+							</a>
+						</li>
+						<li class="navItem col-md-2 p-y-1">
+							<a class="nav-link" href="@pageByTitle("careers")">
+								<span>Careers</span>
+							</a>
+						</li>
+						<li class="navItem col-md-2 p-y-1">
+							<a class="nav-link" href="@pageByTitle("alerts")">
+								<span>Alerts</span>
+							</a>
+						</li>
+						<li class="navItem col-md-2 p-y-1">
+							<a class="nav-link" href="#">
+								<span>My Account</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</div>
+@if (IsSectionDefined("page"))
+{ @RenderSection("page") }
+else
+{
+<main>
+<div class="container no-pad">
+	@if (IsSectionDefined("aboveNavigation"))
+	{
+		@RenderSection("aboveNavigation")
+	}
+	@*<div class="row">
+
+			@foreach (var x in Content.Traverse.StartPage.Children)
+			{
+				if (x != null && x.Visible && !string.IsNullOrWhiteSpace(x.Title) && x.IsPage)
+				{
+					<a class="col-xs-2 familyMarginItem mainNavItem" href="@x.Url">@x.Title</a>
+				}
+			}
+		</div>*@
+	@if (IsSectionDefined("belowNavigation"))
+	{
+		@RenderSection("belowNavigation")
+	}
+	@{ RenderBody(); }
+</div>
+</main>
+			}
+@{ Html.Zone("Scripts").Render(); }
+<footer>
+	<div class="container-fluid">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 p-y-3">
+					<h5>Contact</h5>
+					<address>
+						Middlesex Water Company <br/>
+						1500 Ronson Rd. Iselin, NJ 08830
+					</address>
+					<ul>
+						<li><a href="@pageByTitle("pay-my-bill")">Pay My Bill</a></li>
+						<li><a href="@pageByTitle("directalert")">Register for DirectAlert</a></li>
+						<li><a href="@pageByTitle("emergency-home")">Emergency Repair Plans</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 p-y-3">
+					<h5>About Us</h5>
+					<ul>
+						<li><a href="@pageByTitle("profile")">Corporate Profile</a></li>
+						<li><a href="@pageByTitle("leadership")">Leadership Team</a></li>
+						<li><a href="@pageByTitle("services")">Our Services</a></li>
+						<li><a href="@pageByTitle("tomorrow")">Water for Tomorrow</a></li>
+						<li><a href="@pageByTitle("responsibility")">Corporate Responsibility</a></li>
+						<li><a href="@pageByTitle("diversity")">Diversity</a></li>
+						<li><a href="@pageByTitle("developers")">Developers and Partners</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 p-y-3">
+					<h5>Customer Care</h5>
+					<ul>
+						<li><a href="@pageByTitle("pay-my-bill")">Pay My Bill</a></li>
+						<li><a href="@pageByTitle("customer-care")">Report a Water Emergency</a></li>
+						<li><a href="@pageByTitle("change-of-address")">Change of Address</a></li>
+						<li><a href="@pageByTitle("transfer")">Start, Stop, Transfer Service</a></li>
+						<li><a href="@pageByTitle("rates")">Rates/Tariffs</a></li>
+						<li><a href="@pageByTitle("quality")">Water Quality Reports</a></li>
+						<li><a href="@pageByTitle("tips")">Tips and Tools</a></li>
+					</ul>
+				</div>
+				<div class="col-md-3 p-y-3">
+					<h5>News Room</h5>
+					<ul>
+						<li><a href="@pageByTitle("press")">News Releases</a></li>
+						<li><a href="@pageByTitle("blog")">FreeFlow - MWC Blog</a></li>
+						<li><a href="@pageByTitle("fact")">Fact Sheet</a></li>
+						<li><a href="@pageByTitle("publications")">Publications</a></li>
+						<li><a href="@pageByTitle("alerts")">Alerts</a></li>
+						<li><a href="@pageByTitle("media")">Media Library</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-5">
+					<p><a href="~/"><img class="footer-logo" src="~/Dinamico/Themes/MW_2016/Content/msw-logo-white-alpha.svg" /></a></p>
+					<p>
+						Copyright &copy; 2017 Middlesex Water Company <br />
+						All rights reserved.
+						<a href="@legalNoticeUrl">Legal Notice</a>, 
+						<a href="@privacyUrl">Privacy</a><br />
+						The Middlesex Water family of companies are proud
+						to be an equal opportunity employer. MC/D/V.
+					</p>
+				</div>
+				<div class="col-xs-12 col-sm-3 col-sm-push-4">
+					<ul>
+						<li><a href="@pageByTitle("investors")">Investors</a></li>
+						<li><a href="@pageByTitle("careers")">Careers</a></li>
+						<li><a href="#">Back to Top</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+</body>
+</html>

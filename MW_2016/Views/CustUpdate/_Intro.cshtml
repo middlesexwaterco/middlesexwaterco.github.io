@@ -1,0 +1,43 @@
+﻿@model Dinamico.Models.CustUpdate
+
+@if (string.IsNullOrWhiteSpace(Model.IntroText))
+{
+	<h3>What is Middlesex Water DIRECTAlert?</h3>
+	<p>
+		Middlesex Water DIRECTAlert is a program through which customers will receive
+		notification about water quality issues directly impacting them.
+	</p>
+	<h3>Why should I sign up for Middlesex Water DIRECTAlert?</h3>
+	<p>
+		Our customers’ health and safety is of paramount importance. We’ve created the
+		DIRECTAlert Program to help you keep your family safe during a water quality
+		emergency. The DIRECTAlert program allows us to communicate directly with our
+		customers based on information they provide. If a water quality issue arises or boil
+		water advisory is issued, once a customer enrolls in Middlesex Water DIRECTAlert, they
+		will receive notifications about water quality issues that affect them based on the contact information they provide (email, home phone (landline) or mobile phone number).
+	</p>
+	<h3>How do I sign up for the DIRECTAlert Program?</h3>
+	<p>Signing up for the DIRECTAlert program is quick and easy. You will need:</p>
+	<ul>
+		<li>Your account number</li>
+		<li>Your Zip Code</li>
+	</ul>
+	<p>
+		UPDATES: Via the DIRECTAlert program, you also have the ability to update your
+		contact information at anytime in the future.
+	</p>
+	<p>
+		Once you access the sign up form and enter that information, you simply provide
+		the contact information for email, landline phone number or mobile phone number
+		and the methods through which you would like to be contacted.
+	</p>
+	<h3>Where can I call for more information? </h3>
+	<p>
+		You may contact our Customer Service Department at 800-549-3802 and ask about the
+		Middlesex Water DIRECTAlert Program.
+	</p>
+}
+else
+{
+	@Html.Raw(Model.IntroText)
+}

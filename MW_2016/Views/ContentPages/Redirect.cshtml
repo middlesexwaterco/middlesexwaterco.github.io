@@ -1,0 +1,55 @@
+﻿@model Dinamico.Models.ContentPage
+
+
+@section belowNavigation {
+
+<div class="row">
+    <div class="col-sm-3" style="margin-bottom: 1em;">
+        @{ Html.RenderPartial("_SubNavigation"); }
+    </div>
+    <div class="col-sm-9" style="background: #fff;">
+        @{
+	        bool designMode = (Html.ViewContext.HttpContext.User.Identity.IsAuthenticated && Content.Engine.SecurityManager.IsEditor(Html.ViewContext.HttpContext.User));
+            var url = Model.GetDetail("Destination", "/");
+	        if (!designMode)
+	        {
+
+		        var perm = Model.GetDetail("Permanent", false);
+		        var js = Model.GetDetail("LocationReplace", false);
+
+		        if (perm) { Response.RedirectPermanent(url); }
+		        if (js) { <script type="text/javascript">location.replace('@url');</script> }
+
+	        }
+	        else
+	        { 
+		        <div class="alert alert-warning">
+			        <p>Auto-redirect is disabled because the current user is an editor. </p>
+			        <p><a href="@url">Continue to @url</a></p>
+		        </div>
+	        }
+        }
+        @if (Content.Has.Image) {
+            <p>@Content.Render.Image("Image")</p>
+        }
+        @{ Html.DroppableZone("AboveText").Render(); }
+
+            
+        <h1>@Model.Title</h1>
+        <p>You are being redirected to @Model.Title at @Content.Data.Destination. </p>
+        <ul>
+            <li><a href="@Content.Data.Destination">Continue to @Model.Title</a></li>
+            <li><a href="javascript:history.back(1);">Go back</a></li>
+        </ul>
+        @if (!designMode) {
+        <script type="text/javascript">
+            setTimeout("location.replace('@Content.Data.Destination');", 1500);
+        </script>
+        }
+            
+        @Content.Render.Tokens("Text").Wrap(@<div id="content">@item.RenderContents()</div>)
+        @{ Html.DroppableZone("BelowText").Render(); }
+    </div>
+</div>
+
+}

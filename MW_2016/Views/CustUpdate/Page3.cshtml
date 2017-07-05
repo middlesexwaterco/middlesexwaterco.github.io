@@ -1,0 +1,92 @@
+﻿@model Dinamico.Models.CustUpdate
+@using Dinamico.Controllers
+
+
+@section page
+{        
+    @{Html.RenderPartial("_Header");}
+
+    @if (ViewContext.ViewData.ModelState.ContainsKey("Email"))
+    {
+        foreach (var err in ViewContext.ViewData.ModelState["Email"].Errors)
+        {
+            <div class="alert alert-warning"><b>Warning: </b> You might not be able to receive e-mail from us because of the following error: @err.Exception.Message We apologize for the inconvenience.</div>
+        }
+    }
+
+    <div class="row-fluid">
+        <div class="span6">
+
+            @if (String.IsNullOrEmpty(Model.ThankYouNote)) {
+                <h2>Thank you!</h2>
+                <p>You have successfully updated your information. The following information has been recorded for your account. You can print
+                this page as a confirmation, and a copy of the information has also been e-mailed to you for your convenience.</p>
+            }
+            else 
+            {
+                @Html.Raw(Model.ThankYouNote)   
+            }
+
+            <div class="well">
+
+            <p>Account number: @Model.AccountNumber</p>
+            <p>Billing zip code: (hidden for your privacy)</p>
+
+            @if (!String.IsNullOrEmpty(Model.Email))
+            {
+            <p>E-mail address: @Model.Email</p>
+            if (Model.Want_Email || Model.Want_EmergencyEmail) {
+                <ul>
+                @if (Model.Want_EmergencyEmail)
+                { 
+                    <li>Subscribed to emergency e-mail from Middlesex Water</li> 
+                }
+                @if (Model.Want_Email)
+                {
+                    <li>Subscribed to additional e-mail from Middlesex Water</li>
+                }
+                </ul>
+            }
+            }
+
+            @if (!String.IsNullOrEmpty(Model.CellPhone))
+            {
+            <p>Cell phone number: @CustUpdateController.FormatPhone(Model.CellPhone)</p>
+            if (Model.Want_CellSMS  || Model.Want_CellCall) {
+                <ul>
+                @if (Model.Want_CellCall)
+                { 
+                    <li>Subscribed to emergency phone calls from Middlesex Water</li> 
+                }
+                @if (Model.Want_CellSMS)
+                {
+                    <li>Subscribed to emergency SMS text messages from Middlesex Water</li>
+                }
+                </ul>
+            }
+            }
+            
+            @if (!String.IsNullOrEmpty(Model.HomePhone)) 
+            {
+            <p>Home phone number: @CustUpdateController.FormatPhone(Model.HomePhone)</p>
+            if (Model.Want_HomeCall) { 
+                <ul><li>Subscribed to emergency phone calls</li></ul>
+            }
+            
+            <p>Work phone number: @CustUpdateController.FormatPhone(Model.WorkPhone)</p>
+            if (Model.Want_WorkCall) {
+                <ul><li>Subscribed to emergency phone calls</li></ul>
+            }
+            }
+            
+            </div>
+
+        </div>
+        <div class="span6">
+            @{ Html.RenderPartial("_Intro");}
+        </div>
+
+        
+
+    </div>
+}

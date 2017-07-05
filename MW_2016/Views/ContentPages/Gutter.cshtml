@@ -1,0 +1,34 @@
+﻿@model Dinamico.Models.ContentPage
+
+@section belowNavigation {
+
+    <div class="row">
+        <div class="col-sm-3 subnav">
+            @{ Html.RenderPartial("_SubNavigation"); }
+        </div>
+        <div class="col-sm-9 main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-8 col-xs-12">
+                        @{ Html.DroppableZone("AboveText").Render(); }
+                        @Content.Render.Tokens("Text").Wrap(@<div id="content">@item.RenderContents()</div>)
+                        @{ Html.DroppableZone("BelowText").Render(); }
+                    </div>
+                    <div class="col-sm-4 hidden-phone">
+                        @if (Content.Has.Image) {
+                            @Content.Render.Image("Image", "original", "img-fluid border-bottom")
+                        }
+                        @{ Html.DroppableZone("Gutter").Render(); }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        @{ Html.DroppableZone("BelowGutter").Render(); }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}

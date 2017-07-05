@@ -1,0 +1,48 @@
+﻿@model Dinamico.Models.ContentPage
+
+@section belowNavigation {
+
+    <div class="row-fluid">
+        <div class="span3" style="margin-bottom: 1em;">
+            @{ Html.RenderPartial("_SubNavigation"); }
+        </div>
+        <div class="span9" style="background: #fff;">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span3" class="hidden-phone">
+                    </div>
+                    <div class="span9">
+                        @Content.Render.Tokens("Title").Wrap(@<h1>@item.RenderContents()</h1>)
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span3" class="hidden-phone">
+                        @if (Content.Has.Image) {
+                            @Content.Render.Image("Image")
+                        }
+                        @{ Html.DroppableZone("Gutter").Render(); }
+                    </div>
+
+                    <div class="span9">
+                        @Content.Render.Tokens("Text").Wrap(@<div id="content">@item.RenderContents()</div>)
+                        @{ Html.DroppableZone("BelowText").Render(); }
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span3" class="hidden-phone">
+                    </div>
+                    <div class="span9">
+                        <a href="javascript:history.back(1);"><b>Back</b></a>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        @{ Html.DroppableZone("BelowGutter").Render(); }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}

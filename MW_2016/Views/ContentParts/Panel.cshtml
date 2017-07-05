@@ -1,0 +1,29 @@
+﻿@model Dinamico.Models.ContentPart
+@* ReSharper disable UnknownCssClass *@
+@* ReSharper disable Html.PathError *@
+@{
+	Content.Define(ie =>
+	{
+		ie.Definition.Title = "Panel";
+		ie.Definition.IconUrl = "{IconsUrl}/disk.png";
+		ie.FreeText("Text");
+		ie.Title();
+	});
+	var headingId = ("heading" + Content.Current.Part.ID);
+	var contentId = ("part" + Content.Current.Part.ID);
+}
+<div class="card panel-default">
+	<div class="card-header" role="tab" id="@headingId">
+		<h4 class="card-title font-weight-bold">
+			<a class="collapsed" data-toggle="collapse" href="#@contentId" aria-expanded="false" aria-controls="@contentId">
+				@Content.Data.Title &#x25BE;
+			</a>
+		</h4>
+	</div>
+	<div id="@contentId" class="card-collapse collapse" role="tabpanel" aria-labelledby="@headingId">
+		<div class="card-block">
+			@Content.Display.Text
+			@Html.DroppableZone("BelowText")
+		</div>
+	</div>
+</div>

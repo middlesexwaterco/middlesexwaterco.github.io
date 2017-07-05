@@ -1,0 +1,76 @@
+﻿@model Dinamico.Models.CustUpdate
+
+
+@section page
+{        
+	<main>
+		<div class="container main">
+			@{Html.RenderPartial("_Header");}
+
+			<div class="row">
+				<div class="col-xs-4">
+
+					<fieldset class="form-group">
+						<legend>Validation Information</legend>
+						<p>
+							The following information is required for confirmation. We'll check that this information matches our records and
+							if it does, we'll proceed with the information update.
+						</p>
+						
+						<div class="form-horizontal">
+						@using (Html.BeginForm())
+						{
+
+							if (ViewBag.IsInvalid == true)
+							{
+								<div id="m_error" class="alert alert-error">
+									<p>
+										The information you entered does not match our records. Please check your account number and zip code. If you need assistance,
+										please call Customer Care.
+									</p>
+								</div>
+							}
+
+							if (ViewBag.LockedOut == true)
+							{
+								<div id="m_antibrute" class="alert alert-error">
+									<p>
+										Sorry, you've submitted too many invalid account number/zip code pairs and your account has been locked out. Please come
+										back again in 15 minutes.
+									</p>
+								</div>
+							}
+
+							<p>
+								<label>Account Number: @Html.TextBoxFor(a => a.AccountNumber)</label>
+								<span class="help-inline">Enter the ten numeric digits that make up your account number.</span>
+							</p>
+
+							<p>
+								<label>Service Zip Code: @Html.TextBoxFor(a => a.ZipCode)</label>
+								<span class="help-inline">The zip code should be five digits long.</span>
+							</p>
+
+
+
+							<p>
+								<button type="submit" class="btn btn-primary"><i class="icon-white icon-check"> </i> Verify</button>
+							</p>
+
+							<p>
+								<img src="/N2/Resources/Icons/Lock.png" alt="[Lock icon]" /> This page is secure.
+							</p>
+
+						}
+							</div>
+					</fieldset>
+
+				</div>
+				<div class="col-xs-8">
+					@{ Html.RenderPartial("_Intro");}
+				</div>
+			</div>
+		</div>
+	</main>
+
+}

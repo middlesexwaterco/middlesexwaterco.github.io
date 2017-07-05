@@ -1,0 +1,111 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Doppio+One|Open+Sans+Condensed:300|PT+Sans');
+/*
+	font-family: 'Doppio One', sans-serif;
+	font-family: 'PT Sans', sans-serif;
+	font-family: 'Open Sans Condensed', sans-serif;
+*/
+
+.main {
+	background: #fff;
+	padding-top: 10px;
+}
+
+main {
+	background: url(./bg1.png) repeat-x;
+	background-position-y: bottom;
+}
+main>div {
+	background-color: rgba(230, 227, 234, 0.8);
+}
+
+h1, h2, .border-top {
+	border-top: 6px solid #008a99;
+	margin-bottom: 1em;
+	margin-top: 0.25em;
+}
+
+.border-bottom, .nav-link:hover {
+	border-bottom: 6px solid #008a99;
+}
+
+.nav-link {
+	padding: 12px 1em !important;
+}
+.nav-link:hover {
+	padding: 12px 1em 6px 1em !important;
+	background: #fff;
+	color: #004383;
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Doppio One', sans-serif;
+}
+
+h1 {
+	font-weight: bold;
+	font-size: 17pt !important;
+	text-transform: uppercase;
+}
+
+h2 {
+	font-size: 15pt !important;
+}
+
+h3 {
+	font-style: italic;
+	font-size: 14pt;
+	color: #008a99;
+	font-family: 'PT Sans';
+	line-height: 110%;
+}
+
+
+.subnav {
+	margin-bottom: 1em;
+	font-family: 'Doppio One', sans-serif;
+}
+
+.head-img {
+	background-size: cover;
+	height: 300px;
+}
+
+.flex {
+	display: flex;
+	flex-flow: column;
+	height: 100%;
+}
+
+.card-title, .card-title a {
+	color: #004383;
+	text-decoration: none;
+}
+
+a:link,a:visited {
+	text-decoration: none;}
+
+.card ul, p>a:link,p>a:visited, .card a:link, .card a:visited {
+	color: #008a99;
+	font-style: italic;
+}
+.card ul {
+	list-style: none inside;
+	padding-left: 0;
+}
+
+p>a:hover, .card a:hover {
+	color: #008a99;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.card-img-top {
+	border-bottom: 5px solid #004383;
+}
+
+body {
+	background: #E6E3EA;
+	font-family: 'PT Sans', sans-serif;
+	line-height: 125%;
+}

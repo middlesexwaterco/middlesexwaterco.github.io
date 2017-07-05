@@ -1,0 +1,23 @@
+﻿@model Dinamico.Models.CustUpdate
+<div class="row">
+    <div class="col-xs-12">
+
+    <h1>@(String.IsNullOrEmpty(Model.Title) ? "DIRECTAlert Notifications" : Model.Title)</h1>
+    @if (String.IsNullOrWhiteSpace(Model.Subtitle)) 
+    {
+    <p>Please enter the following information to register for DIRECTAlerts or to update your account at Middlesex Water. </p>
+    }
+    else
+    {
+    @Html.Raw(Model.Subtitle)
+    }
+
+    </div>
+</div>
+
+@if (ViewData.ContainsKey("GeneralError"))
+{ 
+<div class="row">
+    <div class="alert alert-danger">@ViewData["GeneralError"]</div>
+</div>
+}

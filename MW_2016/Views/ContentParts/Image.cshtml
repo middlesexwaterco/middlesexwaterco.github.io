@@ -1,0 +1,53 @@
+﻿@model Dinamico.Models.ContentPart
+@{ 
+    Content.Define(ie =>
+    {
+        ie.Title = "Image";
+        ie.Image("Image");
+        ie.Enum("Float", typeof(MWMvc.Float)).DefaultValue(MWMvc.Float.Middle);
+        ie.FreeText("Caption");
+        ie.Text("AltText").DefaultValue("");
+    });
+
+    string FloatEx = "";
+    string Image = "(null)";
+    MWMvc.Float Float = MWMvc.Float.None;
+    string Caption = "(null)";
+    string AltText = "(null)";
+    
+    /* try { */ Image   = Model.GetDetail<string>("Image", "");                      // } catch (Exception x) { Image   = "<!--" + x.ToString() + "--> (error)"; }
+    /* try { */ Caption = Model.GetDetail<string>("Caption", "");                    // } catch (Exception x) { Caption = "<!--" + x.ToString() + "--> (error)"; }
+    /* try { */ AltText = Model.GetDetail<string>("AltText", "");                    // } catch (Exception x) { AltText = "<!--" + x.ToString() + "--> (error)"; }
+    
+    /* try { */ Float   = (MWMvc.Float) Enum.Parse(typeof(MWMvc.Float), (Model.GetDetail("Float") ?? MWMvc.Float.Middle).ToString()); // } catch (Exception x) { FloatEx = "<!--" + x.ToString() + "--> (error)"; }
+
+    bool HasImage = !String.IsNullOrWhiteSpace(Image);
+    bool HasCaption = !String.IsNullOrWhiteSpace(Caption);
+}
+@if (Float == MWMvc.Float.Left)
+{
+    <div style="float: left; padding: 0 1em 1em 0;">
+        <img src="@Image" alt="@AltText" class="img-fluid" />
+        @if (HasCaption) { <p>@Caption</p> }
+    </div>
+}
+else if (Float == MWMvc.Float.Right)
+{
+    <div style="float: right; padding: 0 0 1em 1em;">
+        <img src="@Image" alt="@AltText" class="img-fluid" />
+        @if (HasCaption) { <p>@Caption</p> }
+    </div>
+}
+else if (Float == MWMvc.Float.Middle)
+{
+    <div style="padding: 1em; text-align: center;">
+        <p><img src="@Image" alt="@AltText"  class="img-fluid"/></p>
+        @if (HasCaption) { <p>@Caption</p> }
+    </div>
+}
+else
+{
+    <img src="@Image" alt="@AltText" class="img-fluid" />
+    if (HasCaption) { <p>@Caption</p> }
+}
+@Html.Encode(FloatEx)

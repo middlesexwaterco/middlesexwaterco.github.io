@@ -1,0 +1,25 @@
+﻿@*@foreach (var x in new string[] { 
+    "Middlesex Water Company<br /><small>(includes the Bayview System)</small>",
+    "Tidewater Utilities, Inc.<br /><small>(includes Southern Shores Water Company LLC)</small>",
+    "Tidewater Environmental Services, Inc.",
+    "White Marsh Environmental Systems, Inc.",
+    "Pinelands Water and Wastewater Company",
+    "Utility Service Affiliates (Avalon), Inc.",
+    "Utility Service Affiliates (Perth Amboy), Inc.",
+    "Utility Service Affiliates, Inc.",
+    "Twin Lakes Utilities, Inc."
+}) {
+    <p class="familyMarginItem">@Html.Raw(x)</p>
+}*@
+
+@foreach (var x in Content.Traverse.StartPage.GetChild("family").Children.Where(f => f.IsPage))
+{
+    if (Request.RawUrl.ToLower().Contains(x.Url.ToLower()))
+    {
+    <p class="familyMarginItem familyMarginItem-selected" href="@x.Url">@x.Title</p>
+    }
+    else
+    {
+    <a class="familyMarginItem" href="@x.Url">@x.Title</a>
+    }
+}

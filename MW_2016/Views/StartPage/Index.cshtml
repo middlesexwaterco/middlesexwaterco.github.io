@@ -1,0 +1,35 @@
+﻿@model Dinamico.Models.StartPage
+					 
+@section head {
+	@{ Html.Resources().JavaScript(Url.ThemedContent("~/Content/rslides.js")); }
+	@{ Html.Resources().StyleSheet(Url.ThemedContent("~/Content/rslides.css")); }
+@*	<script type="text/javascript">
+		function resizeSlideshow() {
+			//$("#ss_span").height($("#sx_span").height() - 3);
+		}
+		$(window).resize(resizeSlideshow);
+		$(document).ready(resizeSlideshow);
+	</script>*@
+}
+
+@section aboveNavigation {
+<div class="row">
+		<div class="col-xs-12">
+				@{ Html.DroppableZone("AboveHomepage").Render(); }
+		</div>
+</div>
+}
+
+@section belowNavigation {
+<div class="row-fluid">
+		<div class="span4">@{ Html.DroppableZone("LeftCol").Render(); }</div>
+		<div class="span4">@{ Html.DroppableZone("CenterCol").Render(); }</div>
+		<div class="span4">@{ Html.DroppableZone("RightCol").Render(); }</div>
+</div>
+}
+
+<div id="main" class="clearfix">
+	@{ Html.RenderPartial("LayoutPartials/PreContent"); }
+	@Content.Render.Tokens("Text").Wrap(@<div id="content">@item.RenderContents()</div>)
+	@{ Html.RenderPartial("LayoutPartials/PostContent"); }
+</div>

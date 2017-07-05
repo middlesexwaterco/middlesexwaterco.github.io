@@ -1,0 +1,81 @@
+﻿@model Dinamico.Models.CustUpdate
+@section page
+{        
+    @{Html.RenderPartial("_Header");}
+    <div class="row-fluid">
+        
+        <div class="span4 well">
+        
+            <h2>Customer Information</h2>
+            <p>Please verify that the following customer information that you entered is correct: </p>
+
+            <p>Account Number: @Model.AccountNumber</p>
+            <p>Billing Zip Code: @Model.ZipCode</p>
+        
+        </div>
+
+        <div class="span8">
+        @using (Html.BeginForm("Index", "CustUpdate", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <h2>Contact Information</h2>
+            
+            @Html.Raw(Model.ContactInfoLeadIn)
+            @Html.HiddenFor(a => a.AccountNumber)
+            @Html.HiddenFor(a => a.ZipCode)
+            
+            <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="Email">Email address:</label>
+                <div class="controls docs-input-sizes">
+                    
+                    @Html.TextBoxFor(a => a.Email, new { id = "Email" })
+                    @{ Html.ValidateFor(a => a.Email); }
+                    @Html.ValidationMessageFor(a => a.Email, "Required")
+                    
+                    <label class="checkbox">Email me in case of emergency @Html.CheckBoxFor(a => a.Want_EmergencyEmail)</label>
+                    
+                    <label class="checkbox">Email me non-emergency news from Middlesex Water @Html.CheckBoxFor(a => a.Want_Email)</label>
+
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="HomePhone">Home phone number:</label>
+                <div class="controls docs-input-sizes">
+                    @Html.TextBoxFor(a => a.HomePhone, new { id = "HomePhone" })
+                    <label class="checkbox">Call me at home in case of emergency @Html.CheckBoxFor(a => a.Want_HomeCall)</label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="WorkPhone">Work phone number:</label>
+                <div class="controls docs-input-sizes">
+                    @Html.TextBoxFor(a => a.WorkPhone, new { id = "WorkPhone" })
+                    <label class="checkbox">Call me at work in case of emergency @Html.CheckBoxFor(a => a.Want_WorkCall)</label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="CellPhone">Cell phone number:</label>
+                <div class="controls docs-input-sizes">
+                    @Html.TextBoxFor(a => a.CellPhone)
+
+                    <label class="checkbox">Call me at this number in case of emergency @Html.CheckBoxFor(a => a.Want_CellCall)</label>
+                    <label class="checkbox">Text me at this number in case of emergency @Html.CheckBoxFor(a => a.Want_CellSMS) </label>
+                    <span class="help-inline">I would like to receive SMS notifications at the cell phone number above in the event of an emergency. Regular SMS rates apply.</span>
+                </div>
+            </div>
+
+
+            <div class="control-group">
+            <div class="controls">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div></div>
+
+            </fieldset>
+            
+        }
+        </div>
+    </div>
+
+}

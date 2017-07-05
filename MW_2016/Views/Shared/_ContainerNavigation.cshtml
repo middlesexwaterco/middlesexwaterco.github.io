@@ -1,0 +1,60 @@
+﻿@using N2
+@{
+	ContentItem l1parent = Content.Current.Page;
+	ContentItem startpage = Content.Traverse.StartPage;
+	var inPath = new List<ContentItem>();
+	//while (l1parent != startpage){ inPath.Add(l1parent);l1parent = l1parent.Parent;}
+	inPath.Add(l1parent);
+	inPath.Reverse();
+}
+
+@helper RootNode(ContentItem ci)
+{
+	if (ci.ID == Content.Current.Page.ID) {
+		<li class="nav-item"><a href="#" class="nav-link active">@ci.Title</a></li>
+	}
+	else {
+		<li class="nav-item"><a href="@ci.Url" class="nav-link">@ci.Title</a></li>
+	}
+}
+
+@helper NavNode(ContentItem root)
+{
+	<ul class="nav nav-pills nav-stacked">
+		@foreach (var ci in root.GetChildPagesUnfiltered()) {
+			if (ci.ID == Content.Current.Page.ID) {
+				<li class="nav-item"><a href="#" class="nav-link active">@ci.Title</a></li>
+			}
+			else {
+				<li class="nav-item"><a href="@ci.Url" class="nav-link">@ci.Title</a></li>
+			}
+		}
+	</ul>
+}
+
+<!-- Sub-navigation -->
+<nav class="bd-links">
+	<ul class="nav nav-pills nav-stacked">
+		@RootNode(inPath[0])
+		@NavNode(inPath[0])
+	</ul>
+</nav>
+
+@*<hr/>
+<div class="panel panel-default">
+	<div class="panel-heading" role="tab" id="headingTwo">
+		<h6 class="panel-title font-weight-bold">
+			<a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+			   aria-expanded="false" aria-controls="collapseTwo">
+				Collapsible Group Item #2
+			</a>
+		</h6>
+	</div>
+	<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+		 aria-labelledby="headingTwo">
+		<ul>
+			<li><a href="#">Sub-item 1</a></li>
+			<li><a href="#">Sub-item 2</a></li>
+		</ul>
+	</div>
+</div>*@

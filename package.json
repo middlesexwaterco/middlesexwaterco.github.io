@@ -1,9 +1,9 @@
 {
   "private": true,
   "devDependencies": {
-    "@phenomic/cli": "^1.0.0",
-    "@phenomic/core": "^1.0.0",
-    "@phenomic/preset-react-app": "^1.0.0",
+    "@phenomic/cli": "^1.0.0-alpha.3",
+    "@phenomic/core": "^1.0.0-alpha.3",
+    "@phenomic/preset-react-app": "^1.0.0-alpha.3",
     "eslint": "^4.1.1",
     "file-loader": "^0.11.2",
     "react": "^15.0.0",
